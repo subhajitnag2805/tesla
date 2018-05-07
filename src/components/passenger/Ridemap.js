@@ -39,7 +39,7 @@ class Ridemap extends Component {
     }
 
     onButtonPress() {
-        Actions.continuebooking({
+        Actions.ridelocation({
             //   name: this.props.name,
             //   phone: this.props.phone,
             //   email: this.props.email,
@@ -119,21 +119,21 @@ class Ridemap extends Component {
         return (
             <View style={{ flex: 1, position: 'relative' }}>
                 <Header style={styles.headerTop}>
-                    <Left>
+                    {/* <Left>
                         <Button transparent>
                             <Icon name="arrow-back" />
                         </Button>
-                    </Left>
+                    </Left> */}
                     <Body>
                         <Title>Ridemap </Title>
                     </Body>
-                    <Right >
+                    {/* <Right >
                         <Button transparent style={styles.moreicon}>
                             <Icon name='ios-more' />
 
                         </Button>
 
-                    </Right>
+                    </Right> */}
                 </Header>
 
                 <ScrollView>

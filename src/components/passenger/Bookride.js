@@ -17,7 +17,7 @@ import { Container, Header, Title, Content, Button, Icon, Card, ListItem, List, 
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from 'react-native-responsive-dimensions';
 import ElevatedView from 'react-native-elevated-view'
 import { Col, Row, Grid } from 'react-native-easy-grid';
-
+import { Actions } from 'react-native-router-flux';
 
 export default class Bookride extends Component {
 
@@ -45,6 +45,7 @@ export default class Bookride extends Component {
 
     componentWillUnmount() {
         BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+        Actions.auth();
     }
 
     render() {
@@ -58,19 +59,19 @@ export default class Bookride extends Component {
         return (
             <View style={{ flex: 1, position: 'relative' }}>
                 <Header style={styles.headerTop}>
-                    <Left>
+                    {/* <Left>
                         <Button transparent>
                             <Icon name="arrow-back" />
                         </Button>
-                    </Left>
+                    </Left> */}
                     <Body>
-                        <Title>BookRide </Title>
+                        <Title>Dashboard </Title>
                     </Body>
-                    <Right >
+                    {/* <Right >
                         <Button transparent style={styles.moreicon}>
                             <Icon name='ios-more' />
                         </Button>
-                    </Right>
+                    </Right> */}
                 </Header>
 
                 <ScrollView>
@@ -87,17 +88,17 @@ export default class Bookride extends Component {
                                 <View style={styles.borderdivider} />
                             </View>
 
-                            {
-                                /**
-                                 * onPress={Actions.ridemap}
-                                 */
-                            }
+                            {/* {
+                                
+                                 onPress={Actions.ridemap}
+                                 
+                            } */}
 
                             <View style={styles.bottomspace}>
                                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', }}>
                                     <View style={{ width: '47%' }}>
                                         <ElevatedView elevation={2}>
-                                            <TouchableOpacity style={styles.oneWay}>
+                                            <TouchableOpacity style={styles.oneWay} onPress={ Actions.ridemap }>
                                                 <Image style={styles.imageCar} source={require('../../images/direction.png')} />
                                                 <Text style={styles.rideTime}>One Way</Text>
                                             </TouchableOpacity>
@@ -105,7 +106,7 @@ export default class Bookride extends Component {
                                     </View>
                                     <View style={{ width: '47%' }}>
                                         <ElevatedView elevation={2}>
-                                            <TouchableOpacity style={styles.oneWay} >
+                                            <TouchableOpacity style={styles.oneWay} onPress={ Actions.ridemap } >
                                                 <Image style={styles.imageCar} source={require('../../images/rideclock.png')} />
                                                 <Text style={styles.rideTime}>Hourly</Text>
                                             </TouchableOpacity>

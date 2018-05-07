@@ -154,6 +154,7 @@ class FgpOtp1 extends Component {
                                         required={true}
                                         value={this.state.phoneNumber}
                                         onChangeText={this.phoneNumberHandLer}
+                                        onSubmitEditing={this.submitPhoneForReset.bind(this)}
                                     />
                                 </Item>
 

@@ -115,17 +115,19 @@ class Login extends Component {
               /**route to user booking page */
               Actions.book();
             }
-          } else if (result.data.error == true) {
-            _base.setState({
-              loading: false
-            });
+            /**Error message */
+            else if (result.data.error == true) {
+              _base.setState({
+                loading: false
+              });
 
-            /**Show toaster for otp error message */
-            ToastAndroid.showWithGravity(
-              'Login failed..',
-              ToastAndroid.SHORT,
-              ToastAndroid.TOP
-            );
+              /**Show toaster for otp error message */
+              ToastAndroid.showWithGravity(
+                result.data.message,
+                ToastAndroid.SHORT,
+                ToastAndroid.TOP
+              );
+            }
           }
         }).catch((error) => {
           if (error) {
@@ -136,7 +138,7 @@ class Login extends Component {
             /**Show toaster for otp error message */
             ToastAndroid.showWithGravity(
               'Network error..',
-              ToToastAndroidast.SHORT,
+              ToastAndroidast.SHORT,
               ToastAndroid.TOP
             );
           }
@@ -164,6 +166,9 @@ class Login extends Component {
                     value={this.props.phoneNumber}
                     onChangeText={this.phoneNumberHandLer}
                     keyboardType='numeric'
+                    returnKeyType={"next"}
+                    onSubmitEditing={() => this.passwordRef._root.focus()}
+
                   />
 
                 </Item>
@@ -173,6 +178,8 @@ class Login extends Component {
                     secureTextEntry={true}
                     value={this.state.password}
                     onChangeText={this.passwordHandler}
+                    onSubmitEditing={this.login.bind(this)}
+                    ref={passwordRef => this.passwordRef = passwordRef}
                   />
 
                 </Item>
@@ -366,11 +373,5 @@ const styles = StyleSheet.create({
 
 
 });
-
-const mapStateToProps = ({ auth }) => {
-  const { email, password, error, loading } = auth;
-
-  return { email, password, error, loading };
-};
 
 export default Login;

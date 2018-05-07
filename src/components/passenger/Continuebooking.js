@@ -6,7 +6,8 @@ import {
     Image,
     ImageBackground,
     ScrollView,
-    Dimensions
+    Dimensions,
+    Alert
     // WebView
 } from 'react-native';
 import {
@@ -37,6 +38,7 @@ import moment from 'moment';
 import axios from 'axios';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
+import Spinner from 'react-native-loading-spinner-overlay';
 // import { Popover, PopoverContainer } from 'react-native-simple-popover';
 // import Iframe from 'react-iframe';
 
@@ -66,6 +68,17 @@ export default class Continuebooking extends Component {
         };
 
         this.mapView = null;
+    }
+    confirmbutton = () => {
+        Alert.alert(
+            'Booking Confirmed',
+            'Reaching you soon.....',
+            [
+                { text: 'OK', onPress: () => Actions.auth() }
+            ],
+            { cancelable: false }
+        )
+
     }
     onMapPress = (e) => {
         this.setState({
@@ -150,6 +163,10 @@ export default class Continuebooking extends Component {
         }
         console.log(data);
 
+        // var _base = this;
+        // this.setState({
+        //     loading: true
+        // });
         axios.post('http://ec2-52-27-118-19.us-west-2.compute.amazonaws.com:5555/booking', data)
             .then(function (response) {
 
@@ -167,6 +184,9 @@ export default class Continuebooking extends Component {
             })
             .catch(function (error) {
                 console.log(error);
+                // _base.setState({
+                //     loading: false
+                // });
                 Alert.alert(
                     'Network Error',
                     'Connect to internet',
@@ -194,19 +214,22 @@ export default class Continuebooking extends Component {
 
             <Container style={styles.contentContainer}>
                 <Header style={styles.headerTesla} noShadow>
-                    <Left>
+                    {/* <Left>
                         <Button transparent>
                             <Icon name='arrow-back' />
                         </Button>
-                    </Left>
-                    <Right>
+                    </Left> */}
+                    <Body>
+                        <Title> Confirm Booking </Title>
+                    </Body>
+                    {/* <Right>
                         <Button transparent>
                             <Icon name='more' />
                         </Button>
 
 
 
-                    </Right>
+                    </Right> */}
 
 
                 </Header>
@@ -257,7 +280,7 @@ export default class Continuebooking extends Component {
                                 destination={this.state.coordinates[this.state.coordinates.length - 1]}
                                 apikey={GOOGLE_MAPS_APIKEY}
                                 strokeWidth={3}
-                                strokeColor= 'red'
+                                strokeColor='red'
                                 onStart={(params) => {
                                     console.log(`Started routing between "${params.origin}" and "${params.destination}"`);
                                 }}
@@ -315,7 +338,7 @@ export default class Continuebooking extends Component {
                 <Footer style={styles.headerTesla}>
                     <FooterTab style={styles.headerTesla}>
                         <Button badge vertical >
-                            <Text style={styles.footerbtntextTesla} uppercase={false} onPress={Actions.transportcompany} >Continue Booking</Text>
+                            <Text style={styles.footerbtntextTesla} uppercase={false} onPress={this.confirmbutton.bind(this)} >Confirm Booking</Text>
                         </Button>
                     </FooterTab>
                 </Footer>

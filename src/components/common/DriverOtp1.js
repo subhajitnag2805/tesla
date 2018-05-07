@@ -54,6 +54,7 @@ class DriverOtp1 extends Component {
 
     componentWillUnmount() {
         BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+        Actions.auth();
     }
 
     /**phoneNumber change handler */
@@ -155,6 +156,7 @@ class DriverOtp1 extends Component {
                                         required={true}
                                         value={this.state.phoneNumber}
                                         onChangeText={this.phoneNumberHandLer}
+                                        onSubmitEditing={this.sendOtp.bind(this)}
                                     />
                                 </Item>
 

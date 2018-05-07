@@ -167,6 +167,8 @@ class Forgotpassword extends Component {
                     required={true}
                     value={this.state.newPassword}
                     onChangeText={this.newPasswordHandler}
+                    onSubmitEditing={this.passwordReset.bind(this)}
+
                   />
                 </Item>
                 <View style={styles.textCenter}>

@@ -54,6 +54,7 @@ class Regstep1 extends Component {
 
   componentWillUnmount() {
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+    Actions.auth();
   }
 
   /**validation Check */
@@ -178,6 +179,8 @@ class Regstep1 extends Component {
                   value={this.state.name}
                   required={true}
                   onChangeText={this.nameHandler}
+                  returnKeyType={"next"}
+                  onSubmitEditing={() => this.emailRef._root.focus()}
                 />
               </Item>
               <Item style={styles.itemsalign}>
@@ -197,6 +200,10 @@ class Regstep1 extends Component {
                   placeholderTextColor="rgba(0,0,0,.6)"
                   value={this.state.email}
                   onChangeText={this.emailHandler}
+                  keyboardType='email-address'
+                  returnKeyType={"next"}
+                  ref={emailRef => this.emailRef = emailRef}
+                  onSubmitEditing={() => this.passRef._root.focus()}
                 />
               </Item>
               <Item style={styles.itemsalign}>
@@ -207,6 +214,9 @@ class Regstep1 extends Component {
                   placeholderTextColor="rgba(0,0,0,.6)"
                   value={this.state.password}
                   onChangeText={this.passwordHandler}
+                  returnKeyType={"next"}
+                  ref={passRef => this.passRef = passRef}
+                  onSubmitEditing={() => this.addRef._root.focus()}
                 />
               </Item>
               <Item style={styles.itemsalign}>
@@ -216,6 +226,9 @@ class Regstep1 extends Component {
                   placeholderTextColor="rgba(0,0,0,.6)"
                   value={this.props.address}
                   onChangeText={this.addressHandler}
+                  onSubmitEditing={this.initialRegistration.bind(this)}
+                  ref={addRef => this.addRef = addRef}
+                  returnKeyType={"next"}
                 />
               </Item>
               <View style={styles.textCenter}>

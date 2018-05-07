@@ -57,6 +57,7 @@ class DriverReg2 extends Component {
 
   componentWillUnmount() {
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+    Actions.auth();
   }
 
   /**city change handler */
@@ -239,6 +240,7 @@ class DriverReg2 extends Component {
                       placeholderTextColor="rgba(0,0,0,.6)"
                       value={this.state.zipcode}
                       onChangeText={(value) => this.zipcodeChangehandler(value)}
+                      keyboardType='numeric'
                     />
                     <Icon active name='ios-pin-outline' style={styles.iconstyle} />
                   </Item>
@@ -252,6 +254,7 @@ class DriverReg2 extends Component {
 
                     selectedValue={this.state.country}
                     onValueChange={(value) => this.countryChangehandler(value)}
+                    onSubmitEditing={this.finalRegistration.bind(this)}
                   >
                     <Picker.Item label="Country" value="Country" />
                     <Picker.Item label="Uk" value="Uk" />

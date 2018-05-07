@@ -19,12 +19,26 @@ import ElevatedView from 'react-native-elevated-view'
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { Actions } from 'react-native-router-flux';
 export default class Ridelocation extends Component {
+
+    onButtonPress () {
+        Actions.continuebooking({
+
+            pickup: this.props.pickup,
+            destination: this.props.destination,
+            pickup_lat: this.props.pickup_lat,
+            pickup_long: this.props.pickup_long,
+            dest_lat: this.props.dest_lat,
+            dest_long: this.props.dest_long,
+            time: this.props.time,
+            date: this.props.date
+        })
+    }
     onEmailChange(text) {
         this.props.emailChanged(text);
     }
     render() {
 
-        console.log("my location inside ridelocation==========" + location);
+        //console.log("my location inside ridelocation==========" + location);
 
         // const shadowStyle = {
         //     elevation: 1,
@@ -36,21 +50,21 @@ export default class Ridelocation extends Component {
         return (
             <View style={{ flex: 1, position: 'relative' }}>
                 <Header style={styles.headerTop}>
-                    <Left>
+                    {/* <Left>
                         <Button transparent>
                             <Icon name="arrow-back" />
                         </Button>
-                    </Left>
+                    </Left> */}
                     <Body>
                         <Title>Ridelocation </Title>
                     </Body>
-                    <Right >
+                    {/* <Right >
                         <Button transparent style={styles.moreicon}>
                             <Icon name='ios-more' />
 
                         </Button>
 
-                    </Right>
+                    </Right> */}
                 </Header>
 
                 <ScrollView>
@@ -70,7 +84,7 @@ export default class Ridelocation extends Component {
                                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', }}>
                                     <View style={{ width: '47%' }}>
                                         <ElevatedView elevation={1}>
-                                            <TouchableOpacity style={styles.oneWay} onPress={Actions.flightbooking}>
+                                            <TouchableOpacity style={styles.oneWay} onPress= { this.onButtonPress.bind(this)}>
                                                 <Image style={styles.imageplane} source={require('../../images/airport.png')} />
                                                 <Text style={styles.rideTimea}>Airport</Text>
                                             </TouchableOpacity>

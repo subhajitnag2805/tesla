@@ -155,6 +155,7 @@ class Otpstep1 extends Component {
                                         required={true}
                                         value={this.state.phoneNumber}
                                         onChangeText={this.phoneNumberHandLer}
+                                        onSubmitEditing={this.sendOtp.bind(this)}
                                     />
                                 </Item>
 

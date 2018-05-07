@@ -62,6 +62,7 @@ class DriverOtp2 extends Component {
 
     componentWillUnmount() {
         BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+        Actions.auth();
     }
 
     /**Verify Otp */

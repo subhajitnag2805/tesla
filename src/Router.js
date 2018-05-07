@@ -35,7 +35,7 @@ class RouterComponent extends Component {
                     <Scene key="auth" hideNavBar initial>
                         <Scene key="login" component={Login} initial />
                     </Scene>
-
+ 
                     <Scene key="book" hideNavBar>
                         <Scene key="booking" component={Bookride} initial />
                         <Scene key="ridemap" component={Ridemap} />
