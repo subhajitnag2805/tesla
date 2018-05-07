@@ -8,49 +8,173 @@ import {
   TouchableOpacity,
   ImageBackground,
   StyleSheet,
-  ScrollView
+  ScrollView,
+  ToastAndroid,
+  BackHandler,
+  Alert
 } from 'react-native';
 
 import { Container, Header, Title, Content, Button, Icon, Card, ListItem, List, CardItem, Body, Thumbnail, Left, Right, IconNB } from "native-base";
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from 'react-native-responsive-dimensions';
 import { Col, Row, Grid } from 'react-native-easy-grid';
+import { Dialog, ConfirmDialog } from 'react-native-simple-dialogs';
+
+import axios from 'axios';
+import { Actions } from 'react-native-router-flux';
+import Spinner from 'react-native-loading-spinner-overlay';
+
+const _baseUrl = "http://ec2-52-27-118-19.us-west-2.compute.amazonaws.com:5555";
+
+var finalDate;
+var finalTime;
 
 export default class Ridesappoinmentlist extends Component {
 
-  render() {
-    return (
-      <View style={{ flex: 1 }}>
-        <Header style={styles.headerTop}>
-          <Left>
-            <Button transparent>
-              <Icon name="arrow-back" />
-            </Button>
-          </Left>
-          <Body>
-            <Title> AppoinmentLists </Title>
-          </Body>
-          <Right >
-            <Button transparent style={styles.moreicon}>
-              <Icon name='ios-more' />
+  state = {
+    loading: false,
+    result: []
+  }
 
-            </Button>
+  /**Backbutton handler for closing app or cancel */
+  handleBackButton = () => {
+    Alert.alert(
+      'Exit App',
+      'Exiting the application?', [{
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel'
+      }, {
+        text: 'OK',
+        onPress: () => BackHandler.exitApp()
+      },], {
+        cancelable: false
+      }
+    )
+    return true;
+  }
 
-          </Right>
-        </Header>
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+  }
 
-        <ScrollView>
-          <View >
-            <Content padder >
-              <View style={styles.headerContent}>
-                <Image style={styles.imageCar} source={require('../../images/car.png')} />
-                <View style={styles.textCenter}>
-                  <Text style={styles.rideHeader}>
-                    RIDES &nbsp;&nbsp;<Text style={styles.appointmentHeader}>APPOINTMENTS</Text>
-                  </Text>
-                </View>
-                <View style={styles.borderdivider} />
-              </View>
-              <View style={styles.bottomspace}>
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+    Actions.auth();
+  }
+
+  /**getting passengers */
+  componentDidMount() {
+    var date = new Date();
+    console.log("date :", date);
+
+    var _base = this;
+    this.setState({
+      loading: true
+    });
+
+    axios.get(_baseUrl + '/booking/getBookingList?date=' + date)
+      .then((result) => {
+        console.log("result :", result.data);
+
+        if (result.data.error == false) {
+          _base.setState({
+            loading: false,
+            result: result.data.result
+          });
+
+          /**save passenger booking details */
+          // result = result.data.result;
+          // console.log("result :", result);
+          console.log("this.state :", this.state);
+
+          /**Show toaster for successful message */
+          ToastAndroid.showWithGravity(
+            'Driver booking list..',
+            ToastAndroid.SHORT,
+            ToastAndroid.TOP
+          );
+
+          //redirected to ride appointment details page
+          // Actions.rideappionmentdetails({
+          //   result: result.data.result
+          // });
+        } else if (result.data.error == true) {
+          _base.setState({
+            loading: false
+          });
+
+          /**Show toaster for error message */
+          ToastAndroid.showWithGravity(
+            'Driver booking list not show..',
+            ToastAndroid.SHORT,
+            ToastAndroid.TOP
+          );
+
+          //redirected to ride list details page
+          // Actions.driverBook();
+        }
+      }).catch((error) => {
+        console.log("error :", error);
+
+        console.log(error);
+        if (error) {
+          _base.setState({
+            loading: false
+          });
+
+          /**Show toaster for error message */
+          ToastAndroid.showWithGravity(
+            'Network error..',
+            ToastAndroid.SHORT,
+            ToastAndroid.TOP
+          );
+        }
+      });
+  }
+
+  /**Open alert */
+  // alertOpen = () => {
+  //   Alert.alert(
+  //     'Passengers ride details..',
+  //     'Accept or Cancel ride..',
+  //     [{
+  //       text: 'Cancel',
+  //       onPress: () => console.log('Cancel Pressed'),
+  //       style: 'cancel'
+  //     }, {
+  //       text: 'Confirm',
+  //       onPress: () => console.log("confirm")
+  //     }]
+  //   )
+  // }
+
+  /**show passenger list */
+  showPassengerList = () => {
+    return this.state.result.map((result) => {
+
+      /**getting date and time */
+      var resultDate = new Date(result.date);
+      console.log("resultDate :", resultDate);
+
+      var year = resultDate.getFullYear();
+      var month = resultDate.getMonth();
+      var day = resultDate.getDay();
+
+      finalDate = day + ' /' + month + ' /' + year;
+      console.log("finalDate :", finalDate);
+
+      var hour = resultDate.getHours();
+      var minute = resultDate.getMinutes();
+
+      finalTime = hour + ' :' + minute;
+      console.log("finalTime :", finalTime);
+
+      return (
+        <View key={result._id}>
+          <Content padder >
+
+            <TouchableOpacity>
+              <View>
                 <Card style={styles.cardShadow}>
                   <CardItem bordered >
                     <Content>
@@ -62,155 +186,89 @@ export default class Ridesappoinmentlist extends Component {
                           </View>
 
                         </Col>
-                        <Col style={{ width: 160, paddingLeft: '2%' }}>
+                        <Col style={{ width: 200, paddingLeft: '10%' }}>
                           <Text style={styles.username}>
-                            Priscilla T.Duncan
-                        </Text>
-                          <Text style={styles.marketFrom}>
-                            From - <Text style={styles.market}>Roy Market,Borjora
-                        </Text>
+                            {result.user.name}
                           </Text>
                           <Text style={styles.marketFrom}>
-                            To - <Text style={styles.market}>Durgapur, Station Bazar
-                        </Text>
+                            From - <Text style={styles.market}>{result.pickupLocation.name}
+                            </Text>
                           </Text>
                           <Text style={styles.marketFrom}>
-                            Date - <Text style={styles.market}>Feb 20 2018
-                        </Text>
+                            To - <Text style={styles.market}>{result.destination.name}
+                            </Text>
                           </Text>
                           <Text style={styles.marketFrom}>
-                            Time - <Text style={styles.market}>5:33 pm
-                        </Text>
+                            Date - <Text style={styles.market}>{finalDate}
+                            </Text>
+                          </Text>
+                          <Text style={styles.marketFrom}>
+                            Time - <Text style={styles.market}>{finalTime}
+                            </Text>
                           </Text>
                         </Col>
-                        <Col style={{ width: 60 }}>
-                          <Button rounded style={styles.btnView}>
-                            <Text uppercase={false} style={styles.buttonTextview}>View</Text>
-                          </Button>
-                          <View style={styles.textCenter}>
-                            <View style={{ width: 50 }}>
-                              <Icon active name='ios-mail-outline' style={styles.iconstyle} />
-                            </View>
-                            <View style={{ width: 50 }}>
-                              <Text style={styles.iconstylenumber}>2</Text>
-                            </View>
-                          </View>
 
-                        </Col>
                       </Grid>
                     </Content>
 
                     {/* </Text>
-                </Body> */}
+          </Body> */}
                   </CardItem>
                 </Card>
               </View>
-              <View style={styles.bottomspace}>
-                <Card style={styles.cardShadow}>
-                  <CardItem bordered>
-                    <Content>
-                      <Grid>
-                        <Col style={{ width: 60 }}>
-                          <Thumbnail source={require('../../images/user.jpeg')} />
-                        </Col>
-                        <Col style={{ width: 160, paddingLeft: '2%' }}>
-                          <Text style={styles.username}>
-                            Priscilla T.Duncan
-                        </Text>
-                          <Text style={styles.marketFrom}>
-                            From - <Text style={styles.market}>Roy Market,Borjora
-                        </Text>
-                          </Text>
-                          <Text style={styles.marketFrom}>
-                            To - <Text style={styles.market}>Durgapur, Station Bazar
-                        </Text>
-                          </Text>
-                          <Text style={styles.marketFrom}>
-                            Date - <Text style={styles.market}>Feb 20 2018
-                        </Text>
-                          </Text>
-                          <Text style={styles.marketFrom}>
-                            Time - <Text style={styles.market}>5:33 pm
-                        </Text>
-                          </Text>
-                        </Col>
-                        <Col style={{ width: 60 }}>
-                          <Button rounded style={styles.btnView}>
-                            <Text uppercase={false} style={styles.buttonTextview}>View</Text>
-                          </Button>
-                          <View style={styles.textCenter}>
-                            <View style={{ width: 50 }}>
-                              <Icon active name='ios-mail-outline' style={styles.iconstyle} />
-                            </View>
-                            <View style={{ width: 50 }}>
-                              <Text style={styles.iconstylenumber}>2</Text>
-                            </View>
-                          </View>
+            </TouchableOpacity>
 
-                        </Col>
-                      </Grid>
-                    </Content>
 
-                    {/* </Text>
-                </Body> */}
-                  </CardItem>
-                </Card>
-              </View>
-              <View style={styles.bottomspace}>
-                <Card style={styles.cardShadow}>
-                  <CardItem bordered>
-                    <Content>
-                      <Grid>
-                        <Col style={{ width: 60 }}>
-                          <Thumbnail source={require('../../images/user2.jpg')} />
-                        </Col>
-                        <Col style={{ width: 160, paddingLeft: '2%' }}>
-                          <Text style={styles.username}>
-                            Priscilla T.Duncan
-                        </Text>
-                          <Text style={styles.marketFrom}>
-                            From - <Text style={styles.market}>Roy Market,Borjora
-                        </Text>
-                          </Text>
-                          <Text style={styles.marketFrom}>
-                            To - <Text style={styles.market}>Durgapur, Station Bazar
-                        </Text>
-                          </Text>
-                          <Text style={styles.marketFrom}>
-                            Date - <Text style={styles.market}>Feb 20 2018
-                        </Text>
-                          </Text>
-                          <Text style={styles.marketFrom}>
-                            Time - <Text style={styles.market}>5:33 pm
-                        </Text>
-                          </Text>
-                        </Col>
-                        <Col style={{ width: 60 }}>
-                          <Button rounded style={styles.btnView}>
-                            <Text uppercase={false} style={styles.buttonTextview}>View</Text>
-                          </Button>
-                          <View style={styles.textCenter}>
-                            <View style={{ width: 50 }}>
-                              <Icon active name='ios-mail-outline' style={styles.iconstyle} />
-                            </View>
-                            <View style={{ width: 50 }}>
-                              <Text style={styles.iconstylenumber}>2</Text>
-                            </View>
-                          </View>
+          </Content>
+          {/* </Container> */}
+        </View>
+      );
+    });
+  }
 
-                        </Col>
-                      </Grid>
-                    </Content>
+  render() {
+    return (
+      <View style={{ flex: 1 }}>
+        <Spinner visible={this.state.loading} textContent={"Loading..."} textStyle={{ color: '#FFF' }} />
+        <Header style={styles.headerTop}>
+          {
+            /**
+             *  <Left>
+              <Button transparent>
+                <Icon name="arrow-back" />
+              </Button>
+            </Left>
+  
+  
+             * <Right >
+              <Button transparent style={styles.moreicon}>
+                <Icon name='ios-more' />
+              </Button>
+            </Right>
+             */
+          }
 
-                    {/* </Text>
-                </Body> */}
-                  </CardItem>
-                </Card>
-              </View>
-              <View></View>
-            </Content>
-            {/* </Container> */}
+          <Body>
+            <Title> AppoinmentLists </Title>
+          </Body>
+        </Header>
+
+
+        <View style={styles.headerContent}>
+          <Image style={styles.imageCar} source={require('../../images/car.png')} />
+          <View style={styles.textCenter}>
+            <Text style={styles.rideHeader}>
+              RIDES &nbsp;&nbsp;<Text style={styles.appointmentHeader}>APPOINTMENTS</Text>
+            </Text>
           </View>
+          <View style={styles.borderdivider} />
+        </View>
+        <ScrollView>
+
+          {
+            this.showPassengerList()
+          }
+
         </ScrollView>
       </View >
     );
@@ -218,6 +276,11 @@ export default class Ridesappoinmentlist extends Component {
 }
 
 const styles = StyleSheet.create({
+  btm10:
+    {
+      marginBottom: '4%',
+      marginTop: '5%',
+    },
   moreicon:
     {
       transform: [{ rotate: '90deg' }]
@@ -246,7 +309,7 @@ const styles = StyleSheet.create({
 
   },
   headerContent: {
-    flex: 1,
+    // flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
@@ -262,8 +325,8 @@ const styles = StyleSheet.create({
       borderTopWidth: 2,
       height: '8%',
       width: '10%',
-      marginTop: '4%',
-      marginBottom: '8%',
+      marginTop: '9%',
+      marginBottom: '6%',
 
     },
 
@@ -287,7 +350,7 @@ const styles = StyleSheet.create({
 
     color: '#ffffff',
     textAlign: 'center',
-    fontSize: 12,
+    fontSize: 14,
     fontFamily: 'Lato-Regular',
     fontWeight: '300',
     justifyContent: 'center',
@@ -327,14 +390,28 @@ const styles = StyleSheet.create({
   },
   btnView:
     {
-      paddingTop: '8%',
+      marginTop: '4%',
+      paddingTop: '4%',
       backgroundColor: '#40b4e5',
       borderColor: '#448aff',
-      width: 75,
+      width: 100,
       justifyContent: 'center',
       marginTop: '8%',
-      marginBottom: '8%',
-      height: 35,
+      marginBottom: '20%',
+      height: 38,
+      borderWidth: 0,
+    },
+  btnViewcancel:
+    {
+      paddingTop: '4%',
+      backgroundColor: '#757575',
+
+      width: 100,
+      justifyContent: 'center',
+      marginTop: '8%',
+      marginLeft: '4%',
+      marginBottom: '20%',
+      height: 38,
       borderWidth: 0,
     },
 });
