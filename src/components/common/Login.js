@@ -20,11 +20,13 @@ import { responsiveHeight, responsiveWidth, responsiveFontSize } from 'react-nat
 import axios from 'axios';
 import { Actions } from 'react-native-router-flux';
 import Spinner from 'react-native-loading-spinner-overlay';
-
+import { Dialog, ConfirmDialog } from 'react-native-simple-dialogs';
 const _baseUrl = "http://ec2-52-27-118-19.us-west-2.compute.amazonaws.com:5555";
 
 class Login extends Component {
-
+  
+  
+  
   state = {
     phoneNumber: "",
     password: "",
@@ -150,7 +152,7 @@ class Login extends Component {
         <View>
           <Spinner visible={this.state.loading} textContent={"Loading..."} textStyle={{ color: '#FFF' }} />
           <View style={styles.canvasContainer}>
-            <Image source={require('../../images/blueview.png')} style={styles.teslabackimg} />
+            <Image source={require('../../images/blueview2.png')} style={styles.teslabackimg} />
 
           </View>
 
@@ -218,6 +220,154 @@ class Login extends Component {
   }
 }
 
+// const styles = StyleSheet.create({
+//   canvasContainer: {
+
+//     alignItems: 'stretch',
+//     padding: 0,
+//   },
+//   errorTextStyle: {
+//     fontSize: 20,
+//     alignSelf: 'center',
+//     color: 'red'
+//   },
+//   itemsalign:
+//     {
+//       marginBottom: 20,
+//     },
+//   textmiddle:
+//     {
+//       textAlign: 'center'
+//     },
+//   speacearea:
+
+//     {
+//       paddingLeft: '8%',
+//       paddingRight: '8%',
+//     },
+//   textCenter:
+//     {
+//       justifyContent: 'center',
+//       flexDirection: 'row'
+//     },
+//   lockplace:
+//     {
+//       height: 29,
+//       width: 30,
+//       alignSelf: 'center',
+//       justifyContent: 'center', alignItems: 'center',
+//       padding: 20,
+//     },
+
+//   linkstyle:
+//     {
+//       textAlign: 'center',
+//       marginTop: '8%',
+//       marginBottom: '10%',
+//       fontSize: 16,
+//       fontFamily: 'Lato-Regular',
+//       color: 'rgba(0,0,0,.6)',
+
+//     },
+//   loginarea:
+//     {
+//       paddingTop: 20,
+//       position: 'relative'
+//     },
+//   backgroundImage: {
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     backgroundColor: '#ffffff',
+
+//   },
+//   iconstyle: {
+//     color: "rgba(0,0,0,0.7)",
+//     fontSize: 20
+//   },
+
+//   container: {
+//     justifyContent: 'center',
+//     alignItems: 'center',
+
+//   },
+//   signupLink:
+//     {
+//       justifyContent: 'center',
+//       alignItems: 'center',
+
+//     },
+
+//   linkFrget:
+//     {
+
+//       textAlign: 'center',
+//       marginTop: '4%',
+//       marginBottom: '4%',
+//       fontSize: 16,
+//       fontFamily: 'Lato-Regular',
+//       color: 'rgba(0,0,0,0.6)',
+
+
+//     },
+//   loginText:
+//     {
+//       textAlign: 'center',
+//       marginTop: 20,
+//       marginBottom: 25,
+//       fontSize: 16,
+//       fontFamily: 'Lato-Regular',
+//       color: 'rgba(0,0,0,0.6)'
+//     },
+//   logoarea: {
+
+//     backgroundColor: 'transparent',
+//   },
+//   teslabackimg:
+//     {
+//       width: responsiveWidth('100%'),
+//       height: responsiveHeight(50),
+//     },
+//   input: {
+//     color: 'rgba(0,0,0,.7)',
+//     fontFamily: 'Lato-Regular',
+//   },
+//   loginhdng:
+//     {
+//       textAlign: 'center',
+//       color: '#b0bec5',
+//       fontSize: 15,
+//       marginTop: 30,
+//       marginBottom: 30,
+//       fontFamily: 'Lato-Regular'
+
+//     },
+
+//   buttonText: {
+
+//     color: '#ffffff',
+//     textAlign: 'center',
+//     fontSize: 18,
+//     fontFamily: 'Lato-Regular',
+//     fontWeight: '300',
+
+
+//   },
+
+
+//   btnlogin:
+//     {
+//       backgroundColor: '#40b4e5',
+//       borderColor: '#448aff',
+//       justifyContent: 'center',
+//       width: 100,
+//       marginTop: '8%',
+//       marginBottom: '8%',
+//       height: 50,
+//       borderWidth: 0,
+//     },
+
+
+// });
 const styles = StyleSheet.create({
   canvasContainer: {
 
@@ -260,7 +410,7 @@ const styles = StyleSheet.create({
   linkstyle:
     {
       textAlign: 'center',
-      marginTop: '8%',
+      marginTop: '2%',
       marginBottom: '10%',
       fontSize: 16,
       fontFamily: 'Lato-Regular',
@@ -323,7 +473,7 @@ const styles = StyleSheet.create({
   teslabackimg:
     {
       width: responsiveWidth('100%'),
-      height: responsiveHeight(50),
+      height: responsiveHeight(40),
     },
   input: {
     color: 'rgba(0,0,0,.7)',
@@ -358,8 +508,8 @@ const styles = StyleSheet.create({
       borderColor: '#448aff',
       justifyContent: 'center',
       width: 100,
-      marginTop: '8%',
-      marginBottom: '8%',
+      marginTop: '1%',
+      marginBottom: '4%',
       height: 50,
       borderWidth: 0,
     },
