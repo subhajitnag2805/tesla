@@ -129,20 +129,77 @@ export default class Ridesappoinmentlist extends Component {
                         </Text>
                             </Text>
                           </Col>
-                          {/* <Col style={{ width: 60 }}>
-                          <Button rounded style={styles.btnView}>
-                            <Text uppercase={false} style={styles.buttonTextview}>View</Text>
-                          </Button>
-                          <View style={styles.textCenter}>
-                            <View style={{ width: 50 }}>
-                              <Icon active name='ios-mail-outline' style={styles.iconstyle} />
-                            </View>
-                            <View style={{ width: 50 }}>
-                              <Text style={styles.iconstylenumber}>2</Text>
-                            </View>
-                          </View>
+                          
+                        </Grid>
+                      </Content>
 
-                        </Col> */}
+                      {/* </Text>
+                </Body> */}
+                    </CardItem>
+                  </Card>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => this.openDialog(true)} >
+                <View  >
+                  <Dialog
+                  style={{backgroundColor:'rgba(0,0,0,0.1)'}}
+                    visible={this.state.showDialog}
+                    onTouchOutside={() => this.openDialog(false)}
+                    contentStyle={{ justifyContent: 'center', alignItems: 'center', }}
+                    animationType="fade">
+                    {/* <Image
+                      source={require('../../images/lock.png')}
+                      style={styles.btm10} /> */}
+                    {/* <Text style={styles.successmsz}>Congrats ! &nbsp;Your Password has changed successfully</Text> */}
+
+                    <View style={{ flex: 1, flexDirection: 'row',justifyContent:'space-between',marginBottom:'20%' }}>
+                      <View  >
+                        <Button rounded style={styles.btnView}>
+                          <Text uppercase={false} style={styles.buttonTextview}>Accept</Text>
+                        </Button>
+                      </View>
+                      <View  >
+                        <Button rounded style={styles.btnViewcancel}>
+                          <Text uppercase={false} style={styles.buttonTextview}>Cancel</Text>
+                        </Button>
+                      </View>
+                    </View>
+                  </Dialog>
+
+                  <Card style={styles.cardShadow}>
+                    <CardItem bordered >
+                      <Content>
+                        <Grid>
+                          <Col style={{ width: 60 }}>
+                            <View style={styles.posrelative}>
+                              <Thumbnail source={require('../../images/user1.jpg')} />
+                              <Text style={styles.onlinedot} />
+                            </View>
+
+                          </Col>
+                          <Col style={{ width: 200, paddingLeft: '10%' }}>
+                            <Text style={styles.username}>
+                              Priscilla T.Duncan
+                        </Text>
+                            <Text style={styles.marketFrom}>
+                              From - <Text style={styles.market}>Roy Market,Borjora
+                        </Text>
+                            </Text>
+                            <Text style={styles.marketFrom}>
+                              To - <Text style={styles.market}>Durgapur, Station Bazar
+                        </Text>
+                            </Text>
+                            <Text style={styles.marketFrom}>
+                              Date - <Text style={styles.market}>Feb 20 2018
+                        </Text>
+                            </Text>
+                            <Text style={styles.marketFrom}>
+                              Time - <Text style={styles.market}>5:33 pm
+                        </Text>
+                            </Text>
+                          </Col>
+                          
                         </Grid>
                       </Content>
 
@@ -154,129 +211,85 @@ export default class Ridesappoinmentlist extends Component {
               </TouchableOpacity>
 
 
-              {/* <Dialog
-                visible={this.state.showDialog}
-                onTouchOutside={() => this.openDialog(false)}
-                contentStyle={{ justifyContent: 'center', alignItems: 'center', }}
-                animationType="fade">
-                <Image
-                  source={require('../../images/lock.png')}
-                  style={styles.btm10} />
-                <Text style={styles.successmsz}>Congrats ! &nbsp;Your Password has changed successfully</Text>
-              </Dialog> */}
+              <TouchableOpacity onPress={() => this.openDialog(true)} >
 
+                <View  >
 
+                  <Dialog
+                    visible={this.state.showDialog}
+                    onTouchOutside={() => this.openDialog(false)}
+                    contentStyle={{ justifyContent: 'center', alignItems: 'center', }}
+                    animationType="fade">
+                    {/* <Image
+                      source={require('../../images/lock.png')}
+                      style={styles.btm10} /> */}
+                    {/* <Text style={styles.successmsz}>Congrats ! &nbsp;Your Password has changed successfully</Text> */}
 
+                    <View style={{ flex: 1, flexDirection: 'row',justifyContent:'space-between',marginBottom:'20%' }}>
+                      <View  >
+                        <Button rounded style={styles.btnView}>
+                          <Text uppercase={false} style={styles.buttonTextview}>Accept</Text>
+                        </Button>
+                      </View>
+                      <View  >
+                        <Button rounded style={styles.btnViewcancel}>
+                          <Text uppercase={false} style={styles.buttonTextview}>Cancel</Text>
+                        </Button>
+                      </View>
+                    </View>
+                  </Dialog>
 
-
-
-              <View style={styles.bottomspace} >
-                <Card style={styles.cardShadow}>
-                  <CardItem bordered>
-                    <Content>
-                      <Grid>
-                        <Col style={{ width: 60 }}>
-                          <Thumbnail source={require('../../images/user.jpeg')} />
-                        </Col>
-                        <Col style={{ width: 160, paddingLeft: '2%' }}>
-                          <Text style={styles.username}>
-                            Priscilla T.Duncan
-                        </Text>
-                          <Text style={styles.marketFrom}>
-                            From - <Text style={styles.market}>Roy Market,Borjora
-                        </Text>
-                          </Text>
-                          <Text style={styles.marketFrom}>
-                            To - <Text style={styles.market}>Durgapur, Station Bazar
-                        </Text>
-                          </Text>
-                          <Text style={styles.marketFrom}>
-                            Date - <Text style={styles.market}>Feb 20 2018
-                        </Text>
-                          </Text>
-                          <Text style={styles.marketFrom}>
-                            Time - <Text style={styles.market}>5:33 pm
-                        </Text>
-                          </Text>
-                        </Col>
-                        <Col style={{ width: 60 }}>
-                          <Button rounded style={styles.btnView}>
-                            <Text uppercase={false} style={styles.buttonTextview}>View</Text>
-                          </Button>
-                          <View style={styles.textCenter}>
-                            <View style={{ width: 50 }}>
-                              <Icon active name='ios-mail-outline' style={styles.iconstyle} />
+                  <Card style={styles.cardShadow}>
+                    <CardItem bordered >
+                      <Content>
+                        <Grid>
+                          <Col style={{ width: 60 }}>
+                            <View style={styles.posrelative}>
+                              <Thumbnail source={require('../../images/user1.jpg')} />
+                              <Text style={styles.onlinedot} />
                             </View>
-                            <View style={{ width: 50 }}>
-                              <Text style={styles.iconstylenumber}>2</Text>
-                            </View>
-                          </View>
 
-                        </Col>
-                      </Grid>
-                    </Content>
+                          </Col>
+                          <Col style={{ width: 200, paddingLeft: '10%' }}>
+                            <Text style={styles.username}>
+                              Priscilla T.Duncan
+                        </Text>
+                            <Text style={styles.marketFrom}>
+                              From - <Text style={styles.market}>Roy Market,Borjora
+                        </Text>
+                            </Text>
+                            <Text style={styles.marketFrom}>
+                              To - <Text style={styles.market}>Durgapur, Station Bazar
+                        </Text>
+                            </Text>
+                            <Text style={styles.marketFrom}>
+                              Date - <Text style={styles.market}>Feb 20 2018
+                        </Text>
+                            </Text>
+                            <Text style={styles.marketFrom}>
+                              Time - <Text style={styles.market}>5:33 pm
+                        </Text>
+                            </Text>
+                          </Col>
+                          
+                        </Grid>
+                      </Content>
 
-                    {/* </Text>
+                      {/* </Text>
                 </Body> */}
-                  </CardItem>
-                </Card>
+                    </CardItem>
+                  </Card>
+                </View>
+              </TouchableOpacity>
+
+
+            
 
 
 
 
-              </View>
-              <View style={styles.bottomspace}>
-                <Card style={styles.cardShadow}>
-                  <CardItem bordered>
-                    <Content>
-                      <Grid>
-                        <Col style={{ width: 60 }}>
-                          <Thumbnail source={require('../../images/user2.jpg')} />
-                        </Col>
-                        <Col style={{ width: 160, paddingLeft: '2%' }}>
-                          <Text style={styles.username}>
-                            Priscilla T.Duncan
-                        </Text>
-                          <Text style={styles.marketFrom}>
-                            From - <Text style={styles.market}>Roy Market,Borjora
-                        </Text>
-                          </Text>
-                          <Text style={styles.marketFrom}>
-                            To - <Text style={styles.market}>Durgapur, Station Bazar
-                        </Text>
-                          </Text>
-                          <Text style={styles.marketFrom}>
-                            Date - <Text style={styles.market}>Feb 20 2018
-                        </Text>
-                          </Text>
-                          <Text style={styles.marketFrom}>
-                            Time - <Text style={styles.market}>5:33 pm
-                        </Text>
-                          </Text>
-                        </Col>
-                        <Col style={{ width: 60 }}>
-                          <Button rounded style={styles.btnView}>
-                            <Text uppercase={false} style={styles.buttonTextview}>View</Text>
-                          </Button>
-                          <View style={styles.textCenter}>
-                            <View style={{ width: 50 }}>
-                              <Icon active name='ios-mail-outline' style={styles.iconstyle} />
-                            </View>
-                            <View style={{ width: 50 }}>
-                              <Text style={styles.iconstylenumber}>2</Text>
-                            </View>
-                          </View>
 
-                        </Col>
-                      </Grid>
-                    </Content>
-
-                    {/* </Text>
-                </Body> */}
-                  </CardItem>
-                </Card>
-              </View>
-              <View></View>
+            
             </Content>
             {/* </Container> */}
           </View>
